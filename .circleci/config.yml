@@ -1,8 +1,14 @@
 version: 2.1
-orbs:
-  k6io: k6io/test@1.1.0
 workflows:
   load_test:
     jobs:
-      - k6io/test:
-          script: todos-testing.js
+      - run-k6-test
+jobs:
+  run-k6-test:
+    docker:
+      - image: loadimpact/k6:latest
+    steps:
+      - checkout
+      - run:
+          name: Run k6 test
+          command: k6 run todos-testing.js
